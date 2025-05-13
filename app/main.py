@@ -4,10 +4,9 @@ from fastapi import FastAPI
 from app.core.config import settings # Importar la configuración
 
 # --- Importar los routers de la API ---
-from app.api.v1 import category_router, product_router # ¡AÑADIDO!
-# Más adelante añadiremos:
-# from app.api.v1 import product_router
-# from app.api.v1 import auth_router
+from app.api.v1 import category_router
+from app.api.v1 import product_router
+from app.api.v1 import auth_router # ¡ASEGÚRATE DE QUE ESTA LÍNEA NO ESTÉ COMENTADA!
 # etc.
 
 
@@ -29,22 +28,31 @@ async def read_root():
 
 # --- Incluir los routers de la API ---
 
-# Router para las Categorías
+# Router para la Autenticación
 app.include_router(
-    category_router.router, # El objeto 'router' que definimos en app/api/v1/category_router.py
-    prefix=f"{settings.API_V1_STR}/categories", # Todas las rutas de category_router comenzarán con /api/v1/categories
-    tags=["Categories"] # Etiqueta para agrupar en la documentación de Swagger
+    auth_router.router, # El objeto 'router' que definimos en app/api/v1/auth_router.py
+    prefix=f"{settings.API_V1_STR}/auth", # Todas las rutas de auth_router comenzarán con /api/v1/auth
+    tags=["Authentication"] # Etiqueta para agrupar en la documentación de Swagger
 )
 
-# Router para los Productos ¡NUEVO!
+# Router para las Categorías
+app.include_router(
+    category_router.router,
+    prefix=f"{settings.API_V1_STR}/categories",
+    tags=["Categories"]
+)
+
+# Router para los Productos
 app.include_router(
     product_router.router,
     prefix=f"{settings.API_V1_STR}/products",
     tags=["Products"]
 )
-#
-# app.include_router(
-# auth_router.router,
-# prefix=f"{settings.API_V1_STR}/auth",
-# tags=["Authentication"]
-# )
+
+# El bloque comentado de auth_router al final también es redundante si ya lo incluiste arriba.
+# #
+# # app.include_router(
+# # auth_router.router,
+# # prefix=f"{settings.API_V1_STR}/auth",
+# # tags=["Authentication"]
+# # )
