@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = os.getenv("DATABASE_URL", "")
 
     # Configuración JWT (leída desde .env)
-    JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "cambiar_esta_clave_secreta_por_defecto")
+    JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "TU_CLAVE_SECRETA_JWT_LARGA_Y_ALEATORIA_AQUI")
     ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
