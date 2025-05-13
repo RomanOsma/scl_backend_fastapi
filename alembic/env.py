@@ -27,7 +27,6 @@ if config.config_file_name is not None:
 
 # --- INICIO: Establecer target_metadata ---
 target_metadata = Base.metadata
-print("Base metadata tables (después de importar models):", Base.metadata.tables.keys()) # Mantenemos el print para verificar
 # --- FIN: Establecer target_metadata ---
 
 # ... (el resto del archivo env.py permanece igual) ...
