@@ -23,7 +23,7 @@ def create_new_movimiento(
 ):
     # Validar que el producto existe antes de llamar al CRUD
     # (Aunque el CRUD también lo valida, es bueno tenerlo aquí para un error HTTP más claro)
-    db_producto = product_crud.get_product(db, producto_id=movimiento_in.producto_id)
+    db_producto = product_crud.get_product(db, product_id=movimiento_in.producto_id) # Corregido
     if not db_producto:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -50,7 +50,7 @@ def read_movimientos_for_product(
     # current_user: models.User = Depends(get_current_active_user), # Opcional proteger este listado
 ):
     # Validar que el producto existe
-    db_producto = product_crud.get_product(db, producto_id=producto_id)
+    db_producto = product_crud.get_product(db, product_id=producto_id) # Corregido
     if not db_producto:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
