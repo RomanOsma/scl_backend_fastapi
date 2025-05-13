@@ -2,6 +2,8 @@
 
 from fastapi import FastAPI
 from app.core.config import settings # Importar la configuración
+from app.api.v1 import proveedor_router # ¡NUEVO!
+from app.api.v1 import movimiento_inventario_router # ¡NUEVO!
 
 # --- Importar los routers de la API ---
 from app.api.v1 import category_router
@@ -49,10 +51,16 @@ app.include_router(
     tags=["Products"]
 )
 
-# El bloque comentado de auth_router al final también es redundante si ya lo incluiste arriba.
-# #
-# # app.include_router(
-# # auth_router.router,
-# # prefix=f"{settings.API_V1_STR}/auth",
-# # tags=["Authentication"]
-# # )
+# Router para los Proveedores ¡NUEVO!
+app.include_router(
+    proveedor_router.router,
+    prefix=f"{settings.API_V1_STR}/proveedores",
+    tags=["Proveedores"]
+)
+
+# Router para los Movimientos de Inventario ¡NUEVO!
+app.include_router(
+    movimiento_inventario_router.router,
+    prefix=f"{settings.API_V1_STR}/movimientos", # o /movimientos-inventario
+    tags=["Movimientos de Inventario"]
+)
