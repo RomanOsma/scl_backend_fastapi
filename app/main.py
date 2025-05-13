@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from app.core.config import settings # Importar la configuración
 
 # --- Importar los routers de la API ---
-from app.api.v1 import category_router # ¡AÑADIDO!
+from app.api.v1 import category_router, product_router # ¡AÑADIDO!
 # Más adelante añadiremos:
 # from app.api.v1 import product_router
 # from app.api.v1 import auth_router
@@ -36,13 +36,12 @@ app.include_router(
     tags=["Categories"] # Etiqueta para agrupar en la documentación de Swagger
 )
 
-# Aquí es donde incluiremos otros routers más adelante:
-# Ejemplo:
-# app.include_router(
-# product_router.router,
-# prefix=f"{settings.API_V1_STR}/products",
-# tags=["Products"]
-# )
+# Router para los Productos ¡NUEVO!
+app.include_router(
+    product_router.router,
+    prefix=f"{settings.API_V1_STR}/products",
+    tags=["Products"]
+)
 #
 # app.include_router(
 # auth_router.router,
