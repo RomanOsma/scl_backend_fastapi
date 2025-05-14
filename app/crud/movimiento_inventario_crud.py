@@ -40,7 +40,7 @@ def create_movimiento_inventario(
     responsable_id: int
 ) -> models.MovimientoInventario:
     # 1. Validar que el producto exista
-    db_producto = product_crud.get_product(db, producto_id=movimiento.producto_id)
+    db_producto = product_crud.get_product(db, product_id=movimiento.producto_id) # Corregido
     if not db_producto:
         # Esta validación debería estar en el router para lanzar HTTPException
         # Aquí simplemente no procedemos o podríamos lanzar un ValueError

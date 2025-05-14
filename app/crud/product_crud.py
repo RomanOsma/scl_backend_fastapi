@@ -8,7 +8,7 @@ from app.schemas import product_schemas
 
 # --- Operaciones de Lectura (Read) ---
 
-def get_product(db: Session, product_id: int) -> Optional[models.Product]:
+def get_product(db: Session, product_id: int) -> Optional[models.Product]: # <--- El parámetro es product_id
     """
     Obtiene un producto específico por su ID, incluyendo su categoría.
     """
