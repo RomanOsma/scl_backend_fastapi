@@ -68,3 +68,5 @@ Backend API para el sistema de gestión de inventario SCL.
     *   La API estará disponible en `http://127.0.0.1:8000`.
     *   Documentación (Swagger UI): `http://127.0.0.1:8000/docs`
     *   Health Check: `http://127.0.0.1:8000/health`
+
+    
