@@ -1,66 +1,76 @@
-# app/main.py
+# scl_backend_fastapi/app/main.py
 
 from fastapi import FastAPI
-from app.core.config import settings # Importar la configuración
-from app.api.v1 import proveedor_router # ¡NUEVO!
-from app.api.v1 import movimiento_inventario_router # ¡NUEVO!
+from fastapi.responses import RedirectResponse
+from starlette.middleware.cors import CORSMiddleware
 
-# --- Importar los routers de la API ---
+from app.core.config import settings
+
+# --- Importar los routers individuales directamente ---
+from app.api.v1 import auth_router
 from app.api.v1 import category_router
 from app.api.v1 import product_router
-from app.api.v1 import auth_router # ¡ASEGÚRATE DE QUE ESTA LÍNEA NO ESTÉ COMENTADA!
-# etc.
+from app.api.v1 import proveedor_router
+from app.api.v1 import movimiento_inventario_router
+# Asegúrate de que los nombres de archivo de tus routers coincidan
+# y que cada uno de esos archivos tenga una variable 'router = APIRouter()'
 
-
-# --- Crear la instancia de la aplicación FastAPI ---
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    version="0.1.0", # Puedes ajustar la versión según avances
-    openapi_url=f"{settings.API_V1_STR}/openapi.json" # Define la ruta para el schema OpenAPI (Swagger)
+    version=settings.PROJECT_VERSION,
+    openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
-# --- Endpoint Raíz ---
-@app.get("/", tags=["Root"])
-async def read_root():
-    """
-    Endpoint raíz que devuelve un mensaje de bienvenida.
-    Accesible en la URL base de la API (ej: http://127.0.0.1:8000/).
-    """
-    return {"message": f"Welcome to {settings.PROJECT_NAME}"}
+# --- Configuración de CORS ---
+if settings.BACKEND_CORS_ORIGINS:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[str(origin).strip("/") for origin in settings.BACKEND_CORS_ORIGINS],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+# --- Endpoint Raíz que Redirige a /docs ---
+@app.get("/", include_in_schema=False)
+async def root_redirect_to_docs():
+    return RedirectResponse(url="/docs")
+
+# --- Endpoint de Health Check ---
+@app.get("/health", tags=["Utilities"], summary="Verifica el estado de la API")
+async def health_check():
+    return {"status": "ok", "message": f"Welcome to {settings.PROJECT_NAME}!"}
+
 
 # --- Incluir los routers de la API ---
-
-# Router para la Autenticación
+# Cada router se incluye con su prefijo y tags
 app.include_router(
-    auth_router.router, # El objeto 'router' que definimos en app/api/v1/auth_router.py
-    prefix=f"{settings.API_V1_STR}/auth", # Todas las rutas de auth_router comenzarán con /api/v1/auth
-    tags=["Authentication"] # Etiqueta para agrupar en la documentación de Swagger
+    auth_router.router, 
+    prefix=f"{settings.API_V1_STR}/auth", 
+    tags=["Authentication"]
 )
-
-# Router para las Categorías
 app.include_router(
-    category_router.router,
-    prefix=f"{settings.API_V1_STR}/categories",
+    category_router.router, 
+    prefix=f"{settings.API_V1_STR}/categories", 
     tags=["Categories"]
 )
-
-# Router para los Productos
 app.include_router(
-    product_router.router,
-    prefix=f"{settings.API_V1_STR}/products",
+    product_router.router, 
+    prefix=f"{settings.API_V1_STR}/products", 
     tags=["Products"]
 )
-
-# Router para los Proveedores ¡NUEVO!
 app.include_router(
-    proveedor_router.router,
-    prefix=f"{settings.API_V1_STR}/proveedores",
+    proveedor_router.router, 
+    prefix=f"{settings.API_V1_STR}/proveedores", 
     tags=["Proveedores"]
 )
-
-# Router para los Movimientos de Inventario ¡NUEVO!
 app.include_router(
-    movimiento_inventario_router.router,
-    prefix=f"{settings.API_V1_STR}/movimientos", # o /movimientos-inventario
+    movimiento_inventario_router.router, 
+    prefix=f"{settings.API_V1_STR}/movimientos", 
     tags=["Movimientos de Inventario"]
 )
+
+# Ejemplo de evento de startup (opcional)
+@app.on_event("startup")
+async def startup_event():
+    print(f"INFO (backend main.py): Aplicación FastAPI {settings.PROJECT_NAME} v{settings.PROJECT_VERSION} iniciada y lista.")
