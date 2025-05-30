@@ -1,3 +1,6 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/RomanOsma/scl_backend_fastapi)
+<a href="https://deepwiki.com/RomanOsma/scl_backend_fastapi"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+
 # SCL Inventory - Wiki
 
 https://deepwiki.com/RomanOsma/scl_backend_fastapi
