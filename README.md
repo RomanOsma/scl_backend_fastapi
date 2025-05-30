@@ -1,3 +1,7 @@
+# SCL Inventory - Wiki
+
+https://deepwiki.com/RomanOsma/scl_backend_fastapi
+
 # SCL Inventory - Backend API (FastAPI)
 
 Backend API para el sistema de gestión de inventario SCL, desarrollado con FastAPI, SQLAlchemy y Pydantic, utilizando PostgreSQL como base de datos (preparado para Supabase).
