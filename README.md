@@ -1,23 +1,46 @@
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/RomanOsma/scl_backend_fastapi)
-<a href="https://deepwiki.com/RomanOsma/scl_backend_fastapi"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 
-# SCL Inventory - Wiki
+# SCL Inventory - Sistema de Gestión de Inventario
 
-https://deepwiki.com/RomanOsma/scl_backend_fastapi
+[Ver Documentación Completa](https://deepwiki.com/RomanOsma/scl_backend_fastapi)
 
-# SCL Inventory - Backend API (FastAPI)
+## 📋 Descripción del Proyecto
 
 Backend API para el sistema de gestión de inventario SCL, desarrollado con FastAPI, SQLAlchemy y Pydantic, utilizando PostgreSQL como base de datos (preparado para Supabase).
 
-## Ejecución Local
+### Tecnologías Principales
+- ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+- ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+- ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+- ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-FF4154?style=for-the-badge)
 
-### Prerrequisitos
+### Arquitectura del Sistema
+```mermaid
+graph TD
+    A[Cliente] -->|HTTP| B[FastAPI Backend]
+    B -->|ORM| C[PostgreSQL]
+    B -->|Auth| D[JWT]
+    E[Alembic] -->|Migraciones| C
+```
+
+## 🚀 Características Principales
+
+- ✅ API RESTful con FastAPI
+- 🔐 Autenticación JWT
+- 📦 Gestión de Productos y Categorías
+- 🏢 Control de Proveedores
+- 📊 Seguimiento de Movimientos de Inventario
+- 🔄 Migraciones automáticas con Alembic
+- 📝 Documentación Swagger/OpenAPI
+
+## 🛠️ Prerrequisitos
+
 *   Python 3.10 o superior
 *   pip (gestor de paquetes de Python)
 *   Git
 *   Una instancia de PostgreSQL accesible (ej. local o una cuenta gratuita en Supabase).
 
-### Pasos
+## ⚙️ Configuración y Despliegue
 
 1.  **Clonar el Repositorio:**
     ```bash
@@ -84,3 +107,54 @@ Backend API para el sistema de gestión de inventario SCL, desarrollado con Fast
     *   La API estará disponible en `http://127.0.0.1:8000`.
     *   La documentación interactiva (Swagger UI) estará en: `http://127.0.0.1:8000/docs`
     *   Un endpoint de estado (health check) está en: `http://127.0.0.1:8000/health`
+
+## 📊 Estructura de la Base de Datos
+
+```mermaid
+erDiagram
+    User ||--o{ MovimientoInventario : registra
+    Product ||--o{ MovimientoInventario : tiene
+    Category ||--o{ Product : contiene
+    Proveedor ||--o{ Product : provee
+```
+
+## 🔗 API Endpoints Principales
+
+### Autenticación
+- `POST /api/v1/auth/login` - Iniciar sesión
+- `POST /api/v1/auth/signup` - Registrar usuario
+
+### Productos
+- `GET /api/v1/products` - Listar productos
+- `POST /api/v1/products` - Crear producto
+- `GET /api/v1/products/{id}` - Obtener producto
+- `PUT /api/v1/products/{id}` - Actualizar producto
+- `DELETE /api/v1/products/{id}` - Eliminar producto
+
+### Movimientos de Inventario
+- `POST /api/v1/movimientos` - Registrar movimiento
+- `GET /api/v1/movimientos` - Listar movimientos
+- `GET /api/v1/movimientos/producto/{id}` - Historial por producto
+
+## 📚 Documentación Adicional
+
+Para una documentación más detallada, incluyendo:
+- Guías de desarrollo
+- Ejemplos de uso
+- Diagramas de flujo
+- Referencias técnicas
+
+Visita nuestra [Wiki completa en DeepWiki](https://deepwiki.com/RomanOsma/scl_backend_fastapi)
+
+## 🤝 Contribución
+
+Si deseas contribuir al proyecto, por favor:
+1. Haz fork del repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📝 Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
